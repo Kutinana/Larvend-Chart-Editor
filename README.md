@@ -4,7 +4,7 @@ Chart Editor for Larvend: Kanata
 
 ![alt Preview of Editor](./Preview.png)
 
-If you're also interested in rhythm game development / design. Don't hesitate to contact me via e-mail or twitter.
+If you're also interested in rhythm game development / design. Don't hesitate to contact me.
 
 Unauthorized use of assets in this repo is strictly prohibited.
 
@@ -20,9 +20,7 @@ Unauthorized use of assets in this repo is strictly prohibited.
 
 ## Contact
 
-- E-mail: <a href="mailto:k@ahympia.com"> k@ahympia.com </a>
-
-- Twitter: <a href="https://twitter.com/MioAkitsuki" target="_blank"> @MioAkitsuki </a>
+- E-mail: <a href="mailto:kanade@yoisaki.com"> kanade@yoisaki.com </a>
 
 ---
 
