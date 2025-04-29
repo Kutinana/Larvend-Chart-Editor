@@ -20,6 +20,7 @@ namespace Larvend.Gameplay
     public class UIController : MonoBehaviour, IController
     {
         public static UIController Instance { get; private set; }
+        public Canvas Canvas;
         internal float[] vel;
         public Material[] materials;
 
@@ -120,6 +121,7 @@ namespace Larvend.Gameplay
         {
             Instance = this;
             vel = new float[5];
+            Canvas = GetComponent<Canvas>();
             
             gridPanel = this.gameObject.transform.Find("GridPanel").gameObject;
             gridPanel.SetActive(false);

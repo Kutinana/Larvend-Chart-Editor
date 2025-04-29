@@ -68,9 +68,19 @@ namespace Larvend
             {
                 Vector3 res = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x,
                     Input.mousePosition.y, 1f)) + m_Offset;
+
+                var displayWidth = UIController.Instance.Canvas.pixelRect.width * 0.741379f;
+                var displayHeight = UIController.Instance.Canvas.pixelRect.height;
+                Vector3 absRes = Camera.main.WorldToScreenPoint(res);
+
+                var proportionX = absRes.x / displayWidth;
+                var proportionY = absRes.y / displayHeight;
+                absRes = new Vector3(proportionX, proportionY, 0f);
+
+                Debug.Log($"{displayWidth}, {displayHeight}, {proportionX}, {proportionY}");
+
                 if (Global.IsAbsorption)
                 {
-                    Vector3 absRes = Camera.main.WorldToViewportPoint(res);
                     if (Math.Abs(Mathf.Round(absRes.x * 10) - absRes.x * 10) < 0.1)
                     {
                         absRes.x = Mathf.Round(absRes.x * 10) / 10f;
@@ -80,16 +90,15 @@ namespace Larvend
                         absRes.y = Mathf.Round(absRes.y * 10) / 10f;
                     }
 
-                    transform.position = Camera.main.ViewportToWorldPoint(absRes);
-                    this.position = absRes;
-                    yield return new WaitForFixedUpdate();
+                    transform.position = Camera.main.ScreenToWorldPoint(new Vector3(absRes.x * displayWidth, absRes.y * displayHeight, time / 10000f));
                 }
                 else
                 {
                     transform.position = res;
-                    this.position = Camera.main.WorldToViewportPoint(transform.position);
-                    yield return new WaitForFixedUpdate();
                 }
+
+                this.position = absRes;
+                yield return new WaitForFixedUpdate();
             }
 
             OperationTracker.Record(new Operation(OperationType.Modify, oldLine, new Line(this)));
@@ -123,7 +132,10 @@ namespace Larvend
 
             if (flag)
             {
-                transform.position = Camera.main.ViewportToWorldPoint(new Vector3(position.x, position.y, time / 10000f));
+                var displayWidth = UIController.Instance.Canvas.pixelRect.width * 0.741379f;
+                var displayHeight = UIController.Instance.Canvas.pixelRect.height;
+
+                transform.position = Camera.main.ScreenToWorldPoint(new Vector3(position.x * displayWidth, position.y * displayHeight, time / 10000f));
                 OperationTracker.EditTarget(new Line(this));
 
                 // yield return new WaitForFixedUpdate();
@@ -367,7 +379,11 @@ namespace Larvend
                     break;
             }
 
-            var newPos = Camera.main.ViewportToWorldPoint(this.position);
+            var displayWidth = UIController.Instance.Canvas.pixelRect.width * 0.741379f;
+            var displayHeight = UIController.Instance.Canvas.pixelRect.height;
+
+            var newPos = Camera.main.ScreenToWorldPoint(new Vector3(position.x * displayWidth, position.y * displayHeight, time / 10000f));
+
             transform.position = new Vector3(newPos.x, newPos.y, time / 10000f);
             transform.localScale = new Vector3(scale, scale, 1);
 
@@ -637,7 +653,10 @@ namespace Larvend
                     this.position.x = Single.Parse(value);
                 }
 
-                var newPos = Camera.main.ViewportToWorldPoint(this.position);
+                var displayWidth = UIController.Instance.Canvas.pixelRect.width * 0.741379f;
+                var displayHeight = UIController.Instance.Canvas.pixelRect.height;
+
+                var newPos = Camera.main.ScreenToWorldPoint(new Vector3(position.x * displayWidth, position.y * displayHeight, time / 10000f));
                 this.transform.position = new Vector3(newPos.x, newPos.y, time / 10000f);
 
                 OperationTracker.Record(new Operation(OperationType.Modify, oldLine, new Line(this)));
@@ -670,7 +689,11 @@ namespace Larvend
                     this.position.y = newValue;
                 }
 
-                var newPos = Camera.main.ViewportToWorldPoint(this.position);
+                var displayWidth = UIController.Instance.Canvas.pixelRect.width * 0.741379f;
+                var displayHeight = UIController.Instance.Canvas.pixelRect.height;
+
+                var newPos = Camera.main.ScreenToWorldPoint(new Vector3(position.x * displayWidth, position.y * displayHeight, time / 10000f));
+            
                 this.transform.position = new Vector3(newPos.x, newPos.y, time / 10000f);
 
                 OperationTracker.Record(new Operation(OperationType.Modify, oldLine, new Line(this)));
